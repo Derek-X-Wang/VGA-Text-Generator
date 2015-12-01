@@ -20,16 +20,16 @@ use work.commonPak.all;
 entity wrapper is
   Port (
     clk: in std_logic;
-    horzCoord: in std_logic_vector(11 downto 0);
-    vertCoord: in std_logic_vector(11 downto 0);
+    xCoord: in std_logic_vector(11 downto 0);
+    yCoord: in std_logic_vector(11 downto 0);
     pixOn: out std_logic
    );
 end wrapper;
 
 architecture Behavioral of wrapper is
 	
-	signal h : integer := to_integer(signed(horzCoord));
-	signal v : integer := to_integer(signed(vertCoord));
+	signal h : integer := to_integer(signed(xCoord));
+	signal v : integer := to_integer(signed(yCoord));
     
     signal d1 : std_logic := '0';
     signal d2 : std_logic := '0';
@@ -38,18 +38,32 @@ architecture Behavioral of wrapper is
 begin
 
 
-	textElement1: entity work.Pixel_On_Text
-	generic map (
-		textLength => 26
-	)
-	port map(
-		clk => clk,
-		displayText => "VGA-Text-Generator test 1.",
-		position => (50, 50),
-		horzCoord => h,
-		vertCoord => v,
-		pixel => d1
-	);
+--	textElement1: entity work.Pixel_On_Text
+--	generic map (
+--		textLength => 26
+--	)
+--	port map(
+--		newClk => clk,
+--		displayText => "VGA-Text-Generator test 1.",
+--		position => (50, 50),
+--		horzCoord => h,
+--		vertCoord => v,
+--		pixel => d1
+--	);
+	
+	textElement1: entity work.my_line
+        generic map (
+            textPassageLength => 33
+        )
+        port map(
+            clk => clk,
+            reset => '0',
+            textPassage => "EE2020 Oscilloscope - Xinzhe Wang",
+            position => (50, 50),
+            hCount => h,
+            vCount => v,
+            drawElement => d1
+        );
 	
 	
 --	textElement2: entity work.Pixel_On_Text

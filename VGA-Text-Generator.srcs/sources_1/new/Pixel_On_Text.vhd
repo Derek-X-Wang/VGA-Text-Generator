@@ -29,10 +29,12 @@ use work.commonPak.all;
 
 entity Pixel_On_Text is
 	generic(
-		textLength: integer := 11
+		textLength: integer := 11;
+		fontWidth: integer := FONT_WIDTH;
+        fontHeight: integer := FONT_HEIGHT
 	);
 	port (
-		clk: in std_logic;
+		newClk: in std_logic;
 		displayText: in string (1 to textLength) := (others => NUL);
 		position: in point_2d := (0, 0); -- top left corner of the text
 		-- current pixel postion
@@ -48,7 +50,7 @@ architecture Behavioral of Pixel_On_Text is
 
 	signal fontAddress: integer;
 	-- A row of bit in a charactor, we check if our current (x,y) is 1 in char row
-	signal charBitInRow: std_logic_vector(FONT_WIDTH-1 downto 0) := (others => '0');
+	signal charBitInRow: std_logic_vector(fontWidth-1 downto 0) := (others => '0');
 	-- char in ASCII code
 	signal charCode:integer := 0;
 	-- the position(column) of a charactor in the given text
@@ -57,39 +59,43 @@ architecture Behavioral of Pixel_On_Text is
 	signal bitPosition:integer := 0;
 begin
     -- (horzCoord - position.x): x positionin the top left of the whole text
-    charPosition <= (horzCoord - position.x)/FONT_WIDTH + 1;
-    bitPosition <= (horzCoord - position.x) mod FONT_WIDTH;
+    charPosition <= (horzCoord - position.x)/fontWidth + 1;
+    bitPosition <= (horzCoord - position.x) mod fontWidth;
     charCode <= character'pos(displayText(charPosition));
     -- charCode*16: first row of the char
     fontAddress <= charCode*16+(vertCoord - position.y);
 
 
-	FontRom: entity work.Font_Rom
+	fontRom: entity work.Font_Rom
 	port map(
-		clk => clk,
+		clk => newClk,
 		addr => fontAddress,
 		fontRow => charBitInRow
 	);
 	
-	pixelOn: process(clk)
+	pixelOn: process(newClk)
 		variable inXRange: boolean := false;
 		variable inYRange: boolean := false;
 	begin
-		if rising_edge(clk) then
-		
+        if rising_edge(newClk) then
+            
+            -- reset
+            inXRange := false;
+            inYRange := false;
+            pixel <= '0';
             -- If current pixel is in the horizontal range of text
-            if horzCoord >= position.x and horzCoord < position.x + (FONT_WIDTH * textlength) then
+            if horzCoord >= position.x and horzCoord < position.x + (fontWidth * textlength) then
                 inXRange := true;
             end if;
             
             -- If current pixel is in the vertical range of text
-            if vertCoord >= position.y and vertCoord < position.y + FONT_HEIGHT then
+            if vertCoord >= position.y and vertCoord < position.y + fontHeight then
                 inYRange := true;
             end if;
-
+            
             -- need to check if the pixel need to be on for text
             if inXRange and inYRange then
-                if charBitInRow(FONT_WIDTH-bitPosition) = '1' then
+                if charBitInRow(fontWidth-bitPosition) = '1' then
                     pixel <= '1';
                 end if;					
             end if;
