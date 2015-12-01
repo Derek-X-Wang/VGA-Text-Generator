@@ -38,32 +38,32 @@ architecture Behavioral of wrapper is
 begin
 
 
---	textElement1: entity work.Pixel_On_Text
---	generic map (
---		textLength => 26
---	)
---	port map(
---		newClk => clk,
---		displayText => "VGA-Text-Generator test 1.",
---		position => (50, 50),
---		horzCoord => h,
---		vertCoord => v,
---		pixel => d1
---	);
+	textElement1: entity work.Pixel_On_Text
+	generic map (
+		textLength => 26
+	)
+	port map(
+		newClk => clk,
+		displayText => "VGA-Text-Generator test 1.",
+		position => (50, 50),
+		horzCoord => h,
+		vertCoord => v,
+		pixel => d1
+	);
 	
-	textElement1: entity work.my_line
-        generic map (
-            textPassageLength => 33
-        )
-        port map(
-            clk => clk,
-            reset => '0',
-            textPassage => "EE2020 Oscilloscope - Xinzhe Wang",
-            position => (50, 50),
-            hCount => h,
-            vCount => v,
-            drawElement => d1
-        );
+--	textElement1: entity work.my_line
+--        generic map (
+--            textPassageLength => 33
+--        )
+--        port map(
+--            clk => clk,
+--            reset => '0',
+--            textPassage => "EE2020 Oscilloscope - Xinzhe Wang",
+--            position => (50, 50),
+--            hCount => h,
+--            vCount => v,
+--            drawElement => d1
+--        );
 	
 	
 --	textElement2: entity work.Pixel_On_Text
