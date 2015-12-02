@@ -40,11 +40,11 @@ begin
 
 	textElement1: entity work.Pixel_On_Text
 	generic map (
-		textLength => 29
+		textLength => 38
 	)
 	port map(
 		clk => clk,
-		displayText => "VGA-Text-Generator test 1!@#$",
+		displayText => "Pixel_On_Text -- test 1!@#$ at (50,50)",
 		position => (50, 50),
 		horzCoord => h,
 		vertCoord => v,
@@ -53,11 +53,11 @@ begin
 	
 	textElement2: entity work.Pixel_On_Text
 	generic map (
-		textLength => 29
+		textLength => 39
 	)
 	port map(
 		clk => clk,
-		displayText => "VGA-Text-Generator test 2%^&*",
+		displayText => "Pixel_On_Text -- test 2%^&* at (500,50)",
 		position => (500, 50),
 		horzCoord => h,
 		vertCoord => v,
@@ -66,11 +66,11 @@ begin
 	
 	textElement3: entity work.Pixel_On_Text
 	generic map (
-		textLength => 31
+		textLength => 41
 	)
 	port map(
 		clk => clk,
-		displayText => "VGA-Text-Generator test 3()_+-=",
+		displayText => "Pixel_On_Text -- test 3()_+-= at (50,130)",
 		position => (50, 130),
 		horzCoord => h,
 		vertCoord => v,
