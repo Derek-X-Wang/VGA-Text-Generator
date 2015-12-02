@@ -1,10 +1,9 @@
--- Pixel_On_Text determines if the current pixel is on text
+-- Pixel_On_Text2 determines if the current pixel is on text and make it easiler to call from verilog
 -- param:
---   textlength, use to init the string
+--   display text
 -- input: 
 --   VGA clock(the clk you used to update VGA)
---   display text
---   top left corner of the text box
+--   top left corner of the text area -- positionX, positionY
 --   current X and Y position
 -- output:
 --   a bit that represent whether is the pixel in text
@@ -91,8 +90,9 @@ begin
                 inYRange := true;
             end if;
             
-            -- need to check if the pixel need to be on for text
+            -- need to check if the pixel is on for text
             if inXRange and inYRange then
+                -- FONT_WIDTH-bitPosition: we are reverting the charactor
                 if charBitInRow(FONT_WIDTH-bitPosition) = '1' then
                     pixel <= '1';
                 end if;					
