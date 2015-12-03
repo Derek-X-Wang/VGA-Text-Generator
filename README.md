@@ -1,4 +1,6 @@
 # VGA-Text-Generator
+<img src="https://cloud.githubusercontent.com/assets/6364170/11562333/5b6374c0-9a08-11e5-8af7-0967f38a6901.jpg" width="700">
+
 A basic VGA text generator for printing text from FPGA to Monitor via VGA. The module is written in VHDL but it can work with Verilog and I'll show some usages below.  
 
 # Environment
@@ -13,7 +15,24 @@ ASCII code 0 - 127
 - I'm totally a newbie in Verilog and VHDL(couples week of school class for Verilog and learn VHDL by study MadLittleMods' code line by line). And this is why I'm trying to keep this project as simple as possible. A lot of the existing vga text module is too good/complex(sometimes due to optimisation) for me to understand and none of them fits my need.
 - This project is just a generator without any(well, still has a bit of opt but easy to understand) optimisation. I hope this project will give you a quick start on printing text via vga. However, you may need to work a bit more to get some advance features such as dynamic text(I include a hint in wrapper.vhd), font size changing, font color changing and etc.
 
+# File
+Most files are based on [MadLittleMods/FP-V-GA-Text](https://github.com/MadLittleMods/FP-V-GA-Text).
+- **Font_Rom.vhd:** This module stores all the data of characters from ASCII 0 - 127. Basically, it is a long array contains all the characters. Each charactors contains 8 * 16 pixels. The module returns a row of character based on input address. See the file's comments for more detail.
+- **Pixel_On_Text.vhd:** This module check if the input position is on the text pixel.
+- **Pixel_On_Text2.vhd:** This module works the same as Pixel_On_Text.vhd and make it easy to be called from Verilog.
+- **commonPak.vhd:** This file contains many constants for the project such as FONT_WIDTH, FONT_HEIGHT and some data structure such as point_2d.
+- **wrapper.vhd:** This is a wrapper for using Pixel_On_Text.vhd in Verilog. It also contains a simple dynamic text sample.
+
+
 # Usages(working in progress)
+The idea of the text generator is simple. When the system updates each pixel on the screen, using Pixel_On_Text or Pixel_On_Text2 to know if this is a pixel on the text. Showing the text color when it's true and showing the background color when it's false.
+Therefore, for the inputs, you need:
+
+        1. VGA clock that update the screen
+        2. text that you want to display
+        3. position of the text(top left corner)
+        4. current position
+
 ### Verilog
 If you would like to call this generator's modules from Verilog, you can use:
 - **Case 1:**
