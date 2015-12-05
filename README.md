@@ -15,7 +15,7 @@ ASCII code 0 - 127
 - I'm totally a newbie in Verilog and VHDL(couples week of school class for Verilog and learn VHDL by study MadLittleMods' code line by line). And this is why I'm trying to keep this project as simple as possible. A lot of the existing vga text module is too good/complex(sometimes due to optimisation) for me to understand and none of them fits my need.
 - This project is just a generator without any(well, still has a bit of opt but easy to understand) optimisation. I hope this project will give you a quick start on printing text via vga. However, you may need to work a bit more to get some advance features such as dynamic text(I include a hint in wrapper.vhd), font size changing, font color changing and etc.
 
-# File
+# Files
 Most files are based on [MadLittleMods/FP-V-GA-Text](https://github.com/MadLittleMods/FP-V-GA-Text).
 - **Font_Rom.vhd:** This module stores all the data of characters from ASCII 0 - 127. Basically, it is a long array contains all the characters. Each charactors contains 8 * 16 pixels. The module returns a row of character based on input address. See the file's comments for more detail.
 - **Pixel_On_Text.vhd:** This module check if the input position is on the text pixel.
@@ -87,6 +87,9 @@ If you would like to call this generator's modules from VHDL, you can use:
         	pixel => d1 -- result
         );
 ```
+
+# Credit
+[MadLittleMods/FP-V-GA-Text](https://github.com/MadLittleMods/FP-V-GA-Text)
 
 
 License
