@@ -24,7 +24,7 @@ Most files are based on [MadLittleMods/FP-V-GA-Text](https://github.com/MadLittl
 - **wrapper.vhd:** This is a wrapper for using Pixel_On_Text.vhd in Verilog. It also contains a simple dynamic text sample.
 
 
-# Usages(working in progress)
+# Usages
 The idea of the text generator is simple. When the system updates each pixel on the screen, using Pixel_On_Text or Pixel_On_Text2 to know if this is a pixel on the text. Showing the text color when it's true and showing the background color when it's false.
 Therefore, for the inputs, you need:
 
@@ -35,14 +35,58 @@ Therefore, for the inputs, you need:
 
 ### Verilog
 If you would like to call this generator's modules from Verilog, you can use:
-- **Case 1:**
-- **Case 2:**
-
+- **Case 1:** Using Pixel_On_Text2.vhd (***Recommended***)
+```verilog
+        Pixel_On_Text2 #(.displayText("Pixel_On_Text2 -- test1 at (200,200)")) t1(
+                CLK_VGA,
+                200, // text position.x (top left)
+                200, // text position.y (top left)
+                VGA_horzCoord, // current position.x
+                VGA_vertCoord, // current position.y
+                res  // result, 1 if current pixel is on text, 0 otherwise
+            );
+```
+- **Case 2:** Using Pixel_On_Text2.vhd by wrapper.vhd, display text and its position is defined in wrapper.vhd
+```verilog
+        wrapper tes(
+                CLK_VGA,
+                VGA_horzCoord, // current position.x
+                VGA_vertCoord, // current position.y
+                res // result, 1 if current pixel is on text, 0 otherwise
+        );
+```
 ### VHDL
 If you would like to call this generator's modules from VHDL, you can use:
-- **Case 1:**
-- **Case 2:**
-
+- **Case 1:** Using Pixel_On_Text.vhd
+```vhdl
+        textElement1: entity work.Pixel_On_Text
+        generic map (
+        	textLength => 38
+        )
+        port map(
+        	clk => clk,
+        	displayText => "Pixel_On_Text -- test 1!@#$ at (50,50)",
+        	position => (50, 50), -- text position (top left)
+        	horzCoord => h,
+        	vertCoord => v,
+        	pixel => d1 -- result
+        );
+```
+- **Case 2:** Using Pixel_On_Text2.vhd
+```vhdl
+        textElement2: entity work.Pixel_On_Text2
+        generic map (
+        	displayText => "Pixel_On_Text -- test 2 at (600,600)"
+        )
+        port map(
+        	clk => clk,
+        	positionX => 600, -- text position.x (top left)
+        	positionY => 600, -- text position.x (top left)
+        	horzCoord => h,
+        	vertCoord => v,
+        	pixel => d1 -- result
+        );
+```
 
 
 License
