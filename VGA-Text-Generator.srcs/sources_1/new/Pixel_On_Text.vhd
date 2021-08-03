@@ -30,13 +30,13 @@ use work.commonPak.all;
 entity Pixel_On_Text is
 	generic(
 	   -- needed for init displayText, the default value 11 is just a random number
-       textLength: integer := 11
+       textLength: integer := 11;
+       x_pos : integer := 1; --x and y position to print the character
+       y_pos : integer := 1
 	);
 	port (
 		clk: in std_logic;
 		displayText: in string (1 to textLength) := (others => NUL);
-		-- top left corner of the text
-		position: in point_2d := (0, 0);
 		-- current pixel postion
 		horzCoord: in integer;
 		vertCoord: in integer;
@@ -48,7 +48,9 @@ end Pixel_On_Text;
 
 architecture Behavioral of Pixel_On_Text is
 
-	signal fontAddress: integer;
+	signal position : point_2d := (0, 0);
+    
+    signal fontAddress: integer;
 	-- A row of bit in a charactor, we check if our current (x,y) is 1 in char row
 	signal charBitInRow: std_logic_vector(FONT_WIDTH-1 downto 0) := (others => '0');
 	-- char in ASCII code
@@ -58,6 +60,8 @@ architecture Behavioral of Pixel_On_Text is
 	-- the bit position(column) in a charactor
 	signal bitPosition:integer := 0;
 begin
+    
+    position <= (x_pos, y_pos);
     -- (horzCoord - position.x): x positionin the top left of the whole text
     charPosition <= (horzCoord - position.x)/FONT_WIDTH + 1;
     bitPosition <= (horzCoord - position.x) mod FONT_WIDTH;
