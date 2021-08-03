@@ -90,6 +90,7 @@ end package VGA_pkg;
 
 package body VGA_pkg is
 
+    --accepts a single character and returns it as a string
     function char_to_str (
         char : in std_logic_vector(7 downto 0)) 
         return string is 
@@ -101,21 +102,21 @@ package body VGA_pkg is
         a := char;
 
         case a is
-            when X"30"    => r := "0";
-            when X"31" => r := "1";
-            when X"32"    => r := "2";
-            when X"33"    => r := "3";
-            when X"34"    => r := "4";
-            when X"35"    => r := "5";
-            when X"36"   => r := "6";
-            when X"37"    => r := "7";
-            when X"38"   => r := "8";
-            when X"39"    => r := "9";
-            when others => r := "?";
+            when X"30"      => r := "0";
+            when X"31"      => r := "1";
+            when X"32"      => r := "2";
+            when X"33"      => r := "3";
+            when X"34"      => r := "4";
+            when X"35"      => r := "5";
+            when X"36"      => r := "6";
+            when X"37"      => r := "7";
+            when X"38"      => r := "8";
+            when X"39"      => r := "9";
+            when others     => r := "?";
         end case;
 
         return r;
-
+    --accepts an integer 0 through 9 and returns it as a string value
     end char_to_str;        
 
     
